@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - SecureShop{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 style="font-size: 1.8rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fas fa-user-shield" style="color: var(--accent-amber);"></i> Administration Dashboard
+        </h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">System status and management overview</p>
+    </div>
+    <div style="display: flex; gap: 0.75rem;">
+        <a href="{{ url_for('admin_products') }}" class="btn btn-primary"><i class="fas fa-boxes"></i> Manage Products</a>
+        <a href="{{ url_for('admin_users') }}" class="btn btn-secondary"><i class="fas fa-users-cog"></i> User List</a>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-label"><i class="fas fa-users"></i> Total Registered Users</span>
+        <div class="stat-value">{{ user_count }}</div>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label"><i class="fas fa-box-open"></i> Catalog Products</span>
+        <div class="stat-value" style="color: var(--accent-indigo);">{{ product_count }}</div>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label"><i class="fas fa-shopping-cart"></i> Total Orders Placed</span>
+        <div class="stat-value" style="color: var(--accent-amber);">{{ order_count }}</div>
+    </div>
+    <div class="stat-card">
+        <span class="stat-label"><i class="fas fa-dollar-sign"></i> Gross Revenue</span>
+        <div class="stat-value" style="color: var(--accent-emerald);">${{ "%.2f"|format(revenue) }}</div>
+    </div>
+</div>
+
+<div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-top: 2rem;">
+    <h3 style="margin-bottom: 1rem; color: var(--accent-blue);"><i class="fas fa-tools"></i> Lab Diagnostics & Testing Shortcuts</h3>
+    <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">
+        The admin panel allows managing inventory and reviewing user accounts. Additionally, security misconfiguration diagnostic tools can be accessed below.
+    </p>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="{{ url_for('debug_info') }}" target="_blank" class="btn btn-secondary btn-sm">
+            <i class="fas fa-code"></i> View Verbose Debug Info (JSON)
+        </a>
+        <a href="{{ url_for('search') }}?q=1%27%20OR%201=1--" class="btn btn-secondary btn-sm">
+            <i class="fas fa-terminal"></i> Test Search SQL Injection Payload
+        </a>
+    </div>
+</div>
+{% endblock %}

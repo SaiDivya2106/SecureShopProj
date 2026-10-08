@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Order #{{ order['id'] }} Details - SecureShop{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+        <h2><i class="fas fa-file-invoice" style="color: var(--accent-blue);"></i> Order Receipt #{{ order['id'] }}</h2>
+        <a href="{{ url_for('orders') }}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> Back to Orders</a>
+    </div>
+
+    <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+            <div>
+                <span style="color: var(--text-muted); font-size: 0.85rem; display: block;">Customer Username</span>
+                <strong>{{ order_user['username'] if order_user else 'Unknown User' }}</strong>
+            </div>
+            <div>
+                <span style="color: var(--text-muted); font-size: 0.85rem; display: block;">Customer Email</span>
+                <strong>{{ order_user['email'] if order_user else 'N/A' }}</strong>
+            </div>
+            <div>
+                <span style="color: var(--text-muted); font-size: 0.85rem; display: block;">Date Placed</span>
+                <strong>{{ order['created_at'] }}</strong>
+            </div>
+            <div>
+                <span style="color: var(--text-muted); font-size: 0.85rem; display: block;">Shipping Address</span>
+                <strong>{{ order['shipping_address'] }}</strong>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 1rem; font-size: 1.1rem; color: var(--accent-blue);">Purchased Items</h3>
+        <div class="table-responsive" style="margin-bottom: 1.5rem;">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Item Description</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td style="display: flex; align-items: center; gap: 0.75rem;">
+                            <img src="{{ item['image_url'] }}" alt="{{ item['name'] }}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px;" onerror="this.src='https://via.placeholder.com/80?text=Item'">
+                            <strong>{{ item['name'] }}</strong>
+                        </td>
+                        <td>${{ "%.2f"|format(item['price']) }}</td>
+                        <td>{{ item['quantity'] }}</td>
+                        <td style="color: var(--accent-emerald); font-weight: 600;">${{ "%.2f"|format(item['price'] * item['quantity']) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; font-size: 1.25rem; font-weight: 700;">
+            <span>Grand Total: <span style="color: var(--accent-emerald);">${{ "%.2f"|format(order['total_amount']) }}</span></span>
+        </div>
+    </div>
+
+    <div style="padding: 1rem; background: rgba(15, 23, 42, 0.5); border-radius: 8px; border: 1px dashed var(--border-color); font-size: 0.85rem; color: var(--text-muted);">
+        <p><strong><i class="fas fa-bug" style="color: var(--accent-amber);"></i> Security Testing Hint:</strong> Try changing the URL order ID (e.g. <code>/order/1</code> or <code>/order/2</code>) while logged in as another user to verify IDOR (Broken Access Control).</p>
+    </div>
+</div>
+{% endblock %}

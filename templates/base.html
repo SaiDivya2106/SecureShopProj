@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SecureShop - Local Security Lab Application{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('index') }}" class="brand">
+            <div class="brand-icon"><i class="fas fa-shield-alt"></i></div>
+            <span>SecureShop</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}"><i class="fas fa-store"></i> Products</a></li>
+            {% if session.get('user_id') %}
+                <li>
+                    <a href="{{ url_for('view_cart') }}">
+                        <i class="fas fa-shopping-cart"></i> Cart 
+                        {% if cart_count and cart_count > 0 %}
+                            <span class="cart-badge">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+                <li><a href="{{ url_for('orders') }}"><i class="fas fa-box"></i> Orders</a></li>
+                <li><a href="{{ url_for('profile') }}"><i class="fas fa-user"></i> Profile</a></li>
+                {% if session.get('role') == 'admin' %}
+                    <li><a href="{{ url_for('admin_dashboard') }}" style="color: var(--accent-amber);"><i class="fas fa-user-shield"></i> Admin Panel</a></li>
+                {% else %}
+                    <!-- Intentionally exposed admin link for Broken Access Control testing -->
+                    <li><a href="{{ url_for('admin_dashboard') }}" style="color: var(--text-muted); opacity: 0.6;"><i class="fas fa-lock"></i> Admin Portal</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('logout') }}" class="btn btn-secondary btn-sm"><i class="fas fa-sign-out-alt"></i> Logout ({{ session.get('username') }})</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li><a href="{{ url_for('register') }}" class="btn btn-primary btn-sm"><i class="fas fa-user-plus"></i> Register</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <main class="main-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <i class="fas fa-info-circle"></i> {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p><strong>SecureShop</strong> &bull; Local Application Security Lab Environment</p>
+        <p style="margin-top: 0.4rem; color: var(--text-muted);">Designed for Red Team & OWASP ZAP Vulnerability Scanning Practice &bull; Localhost Only</p>
+    </footer>
+</body>
+</html>

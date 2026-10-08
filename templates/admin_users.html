@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}User Management - SecureShop Admin{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 style="font-size: 1.8rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fas fa-users-cog" style="color: var(--accent-amber);"></i> Registered User Accounts
+        </h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">System user directory (Admin View / Accessible via BAC)</p>
+    </div>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i> Dashboard</a>
+</div>
+
+<div class="table-responsive">
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Plain Password (Lab Weakness)</th>
+                <th>Full Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr>
+                <td><strong>#{{ u['id'] }}</strong></td>
+                <td><strong style="color: var(--accent-blue);">{{ u['username'] }}</strong></td>
+                <td>{{ u['email'] }}</td>
+                <td><span class="badge-vun">{{ u['role'] }}</span></td>
+                <td><code style="color: var(--accent-rose); background: rgba(244,63,94,0.1); padding: 0.2rem 0.4rem; border-radius: 4px;">{{ u['password'] }}</code></td>
+                <td>{{ u['full_name'] or 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div style="margin-top: 2rem; padding: 1rem; background: rgba(15, 23, 42, 0.5); border-radius: 8px; border: 1px dashed var(--border-color); font-size: 0.85rem; color: var(--text-muted);">
+    <p><strong><i class="fas fa-exclamation-triangle" style="color: var(--accent-amber);"></i> Broken Access Control Warning:</strong> Unauthenticated or low-privilege users can access <code>/admin/users</code> directly due to missing authorization checks in <code>app.py</code>.</p>
+</div>
+{% endblock %}

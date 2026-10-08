@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}SecureShop - Home & Catalog{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1 class="hero-title">Next-Gen Cybersecurity Hardware & Gear</h1>
+    <p class="hero-subtitle">Browse hardware security tokens, penetration testing kits, and secure storage solutions.</p>
+    
+    <form action="{{ url_for('search') }}" method="GET" class="search-box">
+        <input type="text" name="q" class="search-input" placeholder="Search products by name or description..." value="{{ query or '' }}">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+    </form>
+</div>
+
+<div class="category-pills">
+    <a href="{{ url_for('index') }}" class="pill {% if not current_category %}active{% endif %}">All Products</a>
+    {% for cat in categories %}
+        <a href="{{ url_for('index', category=cat['category']) }}" class="pill {% if current_category == cat['category'] %}active{% endif %}">
+            {{ cat['category'] }}
+        </a>
+    {% endfor %}
+</div>
+
+{% if query %}
+    <h3 style="margin-bottom: 1.5rem; color: var(--text-muted);">
+        Search results for: <span style="color: var(--accent-blue);">"{{ query }}"</span> ({{ products|length }} found)
+    </h3>
+{% endif %}
+
+<div class="products-grid">
+    {% for product in products %}
+        <div class="product-card">
+            <div class="product-img-container">
+                <img src="{{ product['image_url'] }}" alt="{{ product['name'] }}" class="product-img" onerror="this.src='https://via.placeholder.com/500x300?text=Hardware+Product'">
+            </div>
+            <div class="product-body">
+                <span class="product-category">{{ product['category'] }}</span>
+                <h3 class="product-title">{{ product['name'] }}</h3>
+                <p class="product-desc">{{ product['description'] }}</p>
+                <div class="product-footer">
+                    <span class="product-price">${{ "%.2f"|format(product['price']) }}</span>
+                    <a href="{{ url_for('product_detail', product_id=product['id']) }}" class="btn btn-secondary btn-sm">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: var(--bg-surface); border-radius: 12px; border: 1px solid var(--border-color);">
+            <i class="fas fa-box-open" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+            <h3>No products found</h3>
+            <p style="color: var(--text-muted);">Try adjusting your search filter or browsing all categories.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

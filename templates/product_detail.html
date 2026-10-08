@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product['name'] }} - SecureShop{% endblock %}
+
+{% block content %}
+<div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+    <div>
+        <img src="{{ product['image_url'] }}" alt="{{ product['name'] }}" style="width: 100%; border-radius: 12px; border: 1px solid var(--border-color);" onerror="this.src='https://via.placeholder.com/500x300?text=Hardware+Product'">
+    </div>
+    <div style="display: flex; flex-direction: column; justify-content: center;">
+        <span class="product-category">{{ product['category'] }}</span>
+        <h1 style="font-size: 2rem; margin-bottom: 1rem;">{{ product['name'] }}</h1>
+        <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem;">{{ product['description'] }}</p>
+        
+        <div style="font-size: 2rem; font-weight: 700; color: var(--accent-emerald); margin-bottom: 1.5rem;">
+            ${{ "%.2f"|format(product['price']) }}
+        </div>
+
+        <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Stock status: <strong style="color: var(--accent-blue);">{{ product['stock'] }} available</strong></p>
+
+        <form action="{{ url_for('add_to_cart', product_id=product['id']) }}" method="POST" style="display: flex; gap: 1rem; align-items: center;">
+            <input type="number" name="quantity" value="1" min="1" max="{{ product['stock'] }}" class="form-control" style="width: 90px;">
+            <button type="submit" class="btn btn-primary" style="flex: 1;"><i class="fas fa-cart-plus"></i> Add to Shopping Cart</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="500" height="300" fill="url(#bg4)"/>
+  <!-- PCB Board -->
+  <rect x="120" y="80" width="220" height="140" rx="8" fill="#065f46" stroke="#10b981" stroke-width="3"/>
+  <!-- Chips -->
+  <rect x="150" y="110" width="60" height="60" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <rect x="230" y="120" width="40" height="40" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <!-- Antennas -->
+  <rect x="340" y="60" width="16" height="110" rx="8" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+  <rect x="365" y="75" width="16" height="110" rx="8" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+  <text x="250" y="255" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="16" font-weight="bold">WIRELESS AUDIT & PENETRATION CARD</text>
+</svg>

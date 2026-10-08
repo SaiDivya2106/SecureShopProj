@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Login - SecureShop{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2 class="form-title"><i class="fas fa-lock" style="color: var(--accent-blue);"></i> User Account Login</h2>
+    <form action="{{ url_for('login') }}" method="POST">
+        <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" required placeholder="e.g. alice or admin">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required placeholder="Enter password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+    </form>
+
+    <div style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem; color: var(--text-muted);">
+        Don't have an account? <a href="{{ url_for('register') }}" style="color: var(--accent-blue);">Register here</a>
+    </div>
+
+    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-muted);">
+        <p><strong><i class="fas fa-key"></i> Test Lab Credentials:</strong></p>
+        <p style="margin-top: 0.3rem;">User: <code>alice</code> / Password: <code>password123</code></p>
+        <p>Admin: <code>admin</code> / Password: <code>admin123</code></p>
+    </div>
+</div>
+{% endblock %}
