@@ -1,3 +1,6 @@
+## Live Demo
+
+[Visit SecureShop](https://secureshop-6p9g.onrender.com)
 # SecureShop - Vulnerable E-Commerce Application Security Lab
 
 SecureShop is a lightweight, local-only Python/Flask web application intentionally designed with controlled web application vulnerabilities. It serves as a practical target environment for Application Security (AppSec) learning, Red Team assessment, manual penetration testing, and **OWASP ZAP** automated vulnerability scanning.
